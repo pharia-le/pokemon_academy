@@ -1,6 +1,12 @@
-require "pokemon_academy/version"
+require 'pry'
+require 'rest-client'
+require 'json'
+require 'nokogiri'
+require 'open-uri'
 
-module PokemonAcademy
-  class Error < StandardError; end
-  # Your code goes here...
-end
+require_relative './pokemon_academy/version'
+require_relative './pokemon_academy/cli'
+require_relative './pokemon_academy/api'
+require_relative './pokemon_academy/pokemon'
+require_relative './pokemon_academy/scraper'
+

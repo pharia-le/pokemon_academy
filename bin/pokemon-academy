@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
-puts "Hello World!"
+require './lib/pokemon_academy'
+
+PokemonAcademy::CLI.new.call
