@@ -19,8 +19,7 @@ class PokemonAcademy::Pokemon
     end
     
     def self.pokemon_names(input)
-        filter = @@all.select {|pokemon| pokemon.types.include?(input)}
-        names = filter.map {|pokemon| pokemon.name}
+        @@all.select {|pokemon| pokemon.types.include?(input)}.map {|pokemon| pokemon.name}
     end
 
     def self.all

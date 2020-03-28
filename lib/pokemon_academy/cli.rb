@@ -1,12 +1,13 @@
 class PokemonAcademy::CLI
 
     def call
-        puts "Greeting, Trainer. ϞϞ(o^-^o)∩"
-        puts "Please standby while we gather the Pokemon..."
-        PokemonAcademy::API.new.call_api
+        puts "Greeting, Trainer. ϞϞ(o^-^o)∩" unless PokemonAcademy::Pokemon.all.size > 0
+        puts "Please standby while we gather the Pokemon..." unless PokemonAcademy::Pokemon.all.size > 0
+        PokemonAcademy::API.new.call_api unless PokemonAcademy::Pokemon.all.size > 0
         puts(<<~TYPE)
         
         "What Pokemon type would you like to explore?"
+
         - Normal
         - Fire
         - Electric
@@ -27,12 +28,29 @@ class PokemonAcademy::CLI
 
         TYPE
         input = gets.strip.downcase
-        list_of_pokemon_by_input_type(PokemonAcademy::Pokemon.pokemon_names(input))
+        list(PokemonAcademy::Pokemon.pokemon_names(input))
     end
     
-    def list_of_pokemon_by_input_type(list)
+    def list(names)
         puts ""
         puts "Please choose a Pokemon by number."
-        list.each.with_index(1) {|name, i| puts "#{i}. #{name}"}    
+        names.each.with_index(1) {|name, i| puts "#{i}. #{name}"}
+        pokemon_chosen =  names[gets.to_i - 1]
+        PokemonAcademy::SCRAPER.new.scrape(pokemon_chosen)
     end
+
+    def self.details(info)
+        puts(<<~DETAILS)
+            "------------------------------------------------------------------ #{info[:name]} ------------------------------------------------------------------"
+            #{info[:summary]}
+            
+            Height: #{info[:height]}     Category: #{info[:category]}
+            Weight: #{info[:weight]}    Abilities: #{info[:abilities]}
+
+            Type: #{info[:types]}
+            Weaknesses: #{info[:weaknesses]}
+
+        DETAILS
+    end
+
 end
